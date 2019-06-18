@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 var db;
 
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/test", function (err, client) {
+mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb+srv://isejima:isejima@langara-o4fv1.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true }, function (err, client) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -88,8 +88,9 @@ app.get("/api/contacts/:id", function(req, res) {
 app.put("/api/contacts/:id", function(req, res) {
   var updateDoc = req.body;
   delete updateDoc._id;
-
-  db.collection(CONTACTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
+	var newvalues = { $set: updateDoc };
+	const ObjectID = require('mongodb').ObjectID;
+  db.collection(CONTACTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, newvalues, function(err, doc) {
     if (err) {
       handleError(res, err.message, "Failed to update contact");
     } else {

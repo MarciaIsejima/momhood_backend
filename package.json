@@ -13,5 +13,9 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mongodb": "^3.2.7"
-  }
+  },
+	"scripts": {
+  "build": "bower install && grunt build",
+	"start": "node index.js"
+	}		
 }

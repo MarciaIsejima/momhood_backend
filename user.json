@@ -1,5 +1,11 @@
     {
-				"name": "Marcia",
-        "address": "Canyon 123",
-        "email": "emi@gmail.com "
+				"name": "Katie",
+        "address": "120 Georgia Street",
+        "email": "katie@gmail.com ",
+				"weight" : [
+					{"date":"2019-05-01", "value":50.5, "unit":"kg"},
+					{"date":"2019-05-10", "value":51, "unit":"kg"},
+					{"date":"2019-06-05", "value":53.5, "unit":"kg"},
+					{"date":"2019-06-11", "value":55, "unit":"kg"}
+				]
     }

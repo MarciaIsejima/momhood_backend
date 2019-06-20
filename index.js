@@ -3,16 +3,20 @@ var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 
+require('dotenv').config();
+
 var USERS_COLLECTION = "users";
+var WEEKS_COLLECTION = "weekly_info"
 
 var app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb+srv://momhood-user:capstone@langara-o4fv1.mongodb.net/momhood?retryWrites=true&w=majority", { useNewUrlParser: true }, function (err, client) {
+	mongodb.MongoClient.connect(process.env.MONGODB_URI, { useNewUrlParser: true }, function (err, client) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -29,7 +33,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb+srv://momhood-us
   });
 });
 
-// USERS API ROUTES BELOW
+// API ROUTES BELOW
 
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
@@ -106,6 +110,21 @@ app.delete("/api/users/:id", function(req, res) {
       handleError(res, err.message, "Failed to delete user");
     } else {
       res.status(200).json(req.params.id);
+    }
+  });
+});
+
+
+/*  "/api/weeks/:week"
+    GET: find weekly_info by week count. Returns all weekly information less than of equal to week parameter
+ */
+
+app.get("/api/weeks/:week", function(req, res) {
+  db.collection(WEEKS_COLLECTION).find({week_count: { $lte : parseInt(req.params.week) }}).toArray(function(err, docs) {
+    if (err) {
+      handleError(res, err.message, "Failed to get weekly info.");
+    } else {
+      res.status(200).json(docs);
     }
   });
 });

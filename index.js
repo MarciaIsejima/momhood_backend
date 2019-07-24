@@ -120,7 +120,7 @@ app.delete("/api/users/:id", function(req, res) {
  */
 
 app.get("/api/weeks/:week", function(req, res) {
-  db.collection(WEEKS_COLLECTION).find({week_count: { $lte : parseInt(req.params.week) }}).toArray(function(err, docs) {
+  db.collection(WEEKS_COLLECTION).find({week_count: { $lte : parseInt(req.params.week) }}).sort( { week_count: -1 } ).toArray(function(err, docs) {
     if (err) {
       handleError(res, err.message, "Failed to get weekly info.");
     } else {

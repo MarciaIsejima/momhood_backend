@@ -1,2 +1,2 @@
-# momhood_backend
+# Momhood backend
 Backend for Momhood Capstone Project
